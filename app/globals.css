@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --cancha: #1c1a16;
+  --cancha-dark: #0e0c0a;
+  --gold: #e7b53c;
+  --gold-bright: #f8d777;
+  --gold-dark: #9c6b1c;
+  --burgundy: #5c1a24;
+  --cream: #f3ead7;
+  --ink: #070605;
+  --live: #e5484d;
+}
+
+html,
+body {
+  background-color: var(--cancha-dark);
+  color: var(--cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+/* Premium "stage spotlight" backdrop: a warm gold glow from the top, a faint
+   oxblood wash in the corner, all over warm near-black. */
+.bg-pitch {
+  background-color: var(--cancha-dark);
+  background-image:
+    radial-gradient(120% 75% at 50% -8%, rgba(231, 181, 60, 0.13), transparent 60%),
+    radial-gradient(70% 50% at 96% 0%, rgba(92, 26, 36, 0.22), transparent 55%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 28%);
+  background-attachment: fixed;
+}
+
+/* Metallic gold gradient for text (brand name, scores, prize amounts). */
+.gold-gradient {
+  background-image: linear-gradient(
+    180deg,
+    var(--gold-bright) 0%,
+    var(--gold) 48%,
+    var(--gold-dark) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Metallic gold fill for pills/buttons, with a polished highlight. */
+.gold-fill {
+  background-image: linear-gradient(
+    180deg,
+    var(--gold-bright) 0%,
+    var(--gold) 55%,
+    var(--gold-dark) 100%
+  );
+  color: var(--ink);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.35) inset,
+    0 2px 8px rgba(0, 0, 0, 0.45);
+}
+
+/* Ticker: a one-time intro slides the strip in from the right edge on load,
+   then hands off seamlessly into the infinite loop (no jump — both end/start
+   at translateX(0)). */
+@keyframes ticker-intro {
+  from {
+    transform: translateX(100vw);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes ticker-loop {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.ticker-stream {
+  /* --intro-dur is set on the element from JS so the intro slides in at the
+     same pixel-speed as the 60s loop (matched once the track width is known). */
+  animation:
+    ticker-intro var(--intro-dur, 8s) linear both,
+    ticker-loop 60s linear var(--intro-dur, 8s) infinite;
+}
+
+/* Respect reduced-motion: kill the looping animations. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-ticker,
+  .animate-pulseLive,
+  .ticker-stream {
+    animation: none !important;
+  }
+}
+
+/* Visible keyboard focus everywhere. */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
