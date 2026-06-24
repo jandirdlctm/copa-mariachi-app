@@ -90,12 +90,141 @@ body {
     ticker-loop 60s linear var(--intro-dur, 8s) infinite;
 }
 
-/* Respect reduced-motion: kill the looping animations. */
+/* ===================================================================
+   Landing page ("Próximamente") — cinematic motion system
+   =================================================================== */
+
+/* Slow Ken Burns drift on the hero photo. */
+@keyframes kenburns {
+  0% {
+    transform: scale(1.08) translate3d(0, 0, 0);
+  }
+  100% {
+    transform: scale(1.2) translate3d(-1.5%, -2.5%, 0);
+  }
+}
+.kenburns {
+  animation: kenburns 26s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* Staggered blur-rise entrance for hero content. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.98);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+.rise-in {
+  opacity: 0;
+  animation: rise-in 1s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+
+/* Metallic sheen that sweeps across gold text (brand name). */
+@keyframes shimmer {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+.gold-shimmer {
+  background-image: linear-gradient(
+    100deg,
+    var(--gold-dark) 0%,
+    var(--gold) 30%,
+    #fff4cf 50%,
+    var(--gold) 70%,
+    var(--gold-dark) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 6s linear infinite;
+}
+
+/* Pulsing halo around the logo. */
+@keyframes logo-glow {
+  0%,
+  100% {
+    box-shadow:
+      0 0 22px rgba(231, 181, 60, 0.3),
+      0 0 0 0 rgba(231, 181, 60, 0.35);
+  }
+  50% {
+    box-shadow:
+      0 0 46px rgba(231, 181, 60, 0.55),
+      0 0 0 10px rgba(231, 181, 60, 0);
+  }
+}
+.logo-glow {
+  animation: logo-glow 3.2s ease-in-out infinite;
+}
+
+/* Floating blurred gold light orbs for depth. */
+@keyframes float-orb {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(24px, -30px, 0);
+  }
+}
+.orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  animation: float-orb 14s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Flip-clock roll for countdown digits (re-keyed on each change). */
+@keyframes digit-roll {
+  0% {
+    opacity: 0;
+    transform: translateY(-70%) rotateX(-90deg);
+  }
+  55% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg);
+  }
+}
+.digit-roll {
+  display: inline-block;
+  animation: digit-roll 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+  backface-visibility: hidden;
+}
+
+/* Respect reduced-motion: kill looping/entrance animations and show the
+   final (visible) state for anything that animates in from opacity 0. */
 @media (prefers-reduced-motion: reduce) {
   .animate-ticker,
   .animate-pulseLive,
-  .ticker-stream {
+  .ticker-stream,
+  .kenburns,
+  .gold-shimmer,
+  .logo-glow,
+  .orb,
+  .digit-roll {
     animation: none !important;
+  }
+  .rise-in {
+    opacity: 1 !important;
+    animation: none !important;
+    filter: none !important;
+    transform: none !important;
   }
 }
 
