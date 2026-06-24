@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { body, display } from "./fonts";
 import "./globals.css";
 
@@ -23,6 +24,7 @@ export default function RootLayout({
     <html lang="es" className={`${display.variable} ${body.variable}`}>
       <body className="bg-pitch min-h-screen font-body text-cream antialiased">
         {children}
+        <Analytics />
       </body>
     </html>
   );
