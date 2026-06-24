@@ -66,14 +66,29 @@ export default function ProximamentePage() {
           Fontana, CA · 22–23 agosto
         </p>
 
+        {/* Prize badge — the hook. rise-in on the wrapper, pulsing glow on the
+            pill (two animations can't share one element). */}
+        <div className="rise-in mt-7" style={{ animationDelay: "0.6s" }}>
+          <div className="logo-glow inline-flex items-center gap-3 rounded-full border border-gold/50 bg-gradient-to-b from-gold/20 to-ink/60 px-6 py-2.5 backdrop-blur-md">
+            <span className="gold-shimmer font-display text-3xl leading-none sm:text-4xl">
+              $20,000
+            </span>
+            <span className="text-left text-[10px] font-bold uppercase leading-tight tracking-[0.2em] text-gold/90">
+              en
+              <br />
+              premios
+            </span>
+          </div>
+        </div>
+
         <p
-          className="rise-in mt-12 text-xs uppercase tracking-[0.4em] text-cream/70 sm:text-sm"
-          style={{ animationDelay: "0.7s" }}
+          className="rise-in mt-10 text-xs uppercase tracking-[0.4em] text-cream/70 sm:text-sm"
+          style={{ animationDelay: "0.78s" }}
         >
           Faltan
         </p>
 
-        <div className="rise-in mt-5" style={{ animationDelay: "0.9s" }}>
+        <div className="rise-in mt-5" style={{ animationDelay: "0.95s" }}>
           <Countdown />
         </div>
       </div>
